@@ -2,23 +2,17 @@ package com.wcy;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
-import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wcy.mapper.BmsCommentMapper;
-import com.wcy.model.dto.CommentDTO;
-import com.wcy.model.entity.BmsComment;
-import com.wcy.model.entity.BmsCommentFollow;
+import com.wcy.model.entity.Answer;
+import com.wcy.model.entity.Question;
+import com.wcy.model.entity.QuestionRelationTag;
 import com.wcy.model.entity.QuestionTag;
-import com.wcy.model.vo.CommentVO;
 import com.wcy.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @SpringBootTest
@@ -77,14 +71,47 @@ class CyCommunityBackendApplicationTests {
 
     @Autowired
     private QuestionTagService  questionTagService;
+
+    @Autowired
+    private QuestionService questionService;
+
+    @Autowired
+    private QuestionRelationTagService questionRelationTagService;
+
+    @Autowired
+    private AnswerService answerService;
     @Test
     void questionTAg(){
-        for(int i =0 ;i<40;i++){
-            QuestionTag tag = QuestionTag.builder()
-                    .name("test")
-                    .questionCount(5)
-                    .build();
-            questionTagService.save(tag);
-        }
+//        Question question = Question.builder()
+//                .content("浅谈对男欢女爱的理解？")
+//                .userId("1653683754269786113")
+//                .answers(0)
+//                .collections(0)
+//                .followers(0)
+//                .createTime(new Date())
+//                .build();
+//
+//        questionService.save(question);
+
+//        QuestionTag tag = QuestionTag.builder()
+//                .name("爱情")
+//                .questionCount(1)
+//                .build();
+//        questionTagService.save(tag);
+
+//        QuestionRelationTag questionRelationTag = QuestionRelationTag.builder()
+//                .tagId("1657376190786215938")
+//                .questionId("1657375564144689154")
+//                .build();
+
+//        Answer answer = Answer.builder()
+//                .questionId("1657375329435639810")
+//                .userId("1655456426061000705")
+//                .content("java是世界上最好的语言")
+//                .createTime(new Date())
+//                .support(2)
+//                .build();
+//
+//        answerService.save(answer);
     }
 }

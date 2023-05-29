@@ -32,4 +32,6 @@ public interface RedisService {
      * @return
      */
     boolean del(String key);
+
+    void increment(String countkey);
 }

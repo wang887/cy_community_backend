@@ -18,13 +18,13 @@ public class CyCommunityBackendApplication extends SpringBootServletInitializer 
         return builder.sources((CyCommunityBackendApplication.class));
     }
 
-    @Bean
-    public FilterRegistrationBean jstFilter(){
-        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
-        registrationBean.setFilter(filter);
-        return registrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean jstFilter(){
+//        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+//        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
+//        registrationBean.setFilter(filter);
+//        return registrationBean;
+//    }
 
     public static void main(String[] args) {
         SpringApplication.run(CyCommunityBackendApplication.class, args);

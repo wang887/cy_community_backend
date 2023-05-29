@@ -2,7 +2,10 @@ package com.wcy.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -61,12 +64,17 @@ public class Question implements Serializable {
     private Integer collections;
 
     /**
+     * 点赞量
+     */
+    private Integer support;
+
+    /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime modifyTime;
+    private Date modifyTime;
 }

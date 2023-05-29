@@ -141,6 +141,11 @@ docker rm -f springboot
 docker rmi -f springboot
 ```
 
+1. spring security
+2. 使用redis实现接口防刷
+3. 使用redis实现缓存页
+4. 介入mogondb
+5. 使用推荐算法
 
 
 

@@ -30,4 +30,9 @@ public class RedisServiceImpl implements RedisService {
     public boolean del(String key) {
         return redisTemplate.delete(key);
     }
+
+    @Override
+    public void increment(String countkey) {
+        redisTemplate.opsForValue().increment(countkey);
+    }
 }

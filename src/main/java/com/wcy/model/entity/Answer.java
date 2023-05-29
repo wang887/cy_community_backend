@@ -2,6 +2,7 @@ package com.wcy.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
@@ -48,15 +49,15 @@ public class Answer implements Serializable {
     /**
      * 喜欢量
      */
-    private Integer like;
+    private Integer support;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime modifyTime;
+    private Date modifyTime;
 }

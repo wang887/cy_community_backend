@@ -22,7 +22,13 @@ public enum ApiErrorCode implements IErrorCode {
     /**
      * 参数校验错误
      */
-    VALIDATE_FAILED(404, "参数检验失败");
+    VALIDATE_FAILED(404, "参数检验失败"),
+    /**
+     * 访问过于频繁
+     */
+     ACCESS_FREQUENT(5000, "访问过于频繁");
+
+     //其他返回码
 
     private final Integer code;
     private final String message;
