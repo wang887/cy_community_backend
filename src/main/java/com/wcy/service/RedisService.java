@@ -12,6 +12,8 @@ public interface RedisService {
      */
     void set(String key, Object value,long second);
 
+    void set(String key, Object value);
+
     /**
      * 获取缓存
      * @param key

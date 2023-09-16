@@ -2,15 +2,18 @@ package com.wcy;
 
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
+import com.wcy.jwt.JwtUtil;
 import com.wcy.mapper.BmsCommentMapper;
 import com.wcy.model.entity.Answer;
 import com.wcy.model.entity.Question;
 import com.wcy.model.entity.QuestionRelationTag;
 import com.wcy.model.entity.QuestionTag;
 import com.wcy.service.*;
+import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
@@ -67,6 +70,18 @@ class CyCommunityBackendApplicationTests {
         Snowflake snowflake = IdUtil.createSnowflake(1, 1);
         String code = snowflake.nextIdStr();
         System.out.println(code);
+    }
+
+    @Test
+    void bcrypt(){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        System.out.println(bCryptPasswordEncoder.encode("wcy123"));
+    }
+    @Test
+    void parseToken(){
+        Map<String, Object> map = JwtUtil.paraseToken("eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjE2NTgwOTEyNzQzNjU5MDI4NTAiLCJleHAiOjE2ODg5NDU1MTh9.FmOMMDecUkKmBL2-IG4yA6-s62AyiPky7FqWpefX_RsfzYd3gmm8yVyquL6yXqy6a3cgwgyzmPX-W9FCWDa-Pg");
+
+        System.out.println(map.get("userName"));
     }
 
     @Autowired

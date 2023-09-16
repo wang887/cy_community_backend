@@ -76,7 +76,7 @@ public class IBmsTopicServiceImpl extends ServiceImpl<BmsTopicMapper, BmsTopic>
     @Transactional(rollbackFor = Exception.class)
     public BmsTopic create(CreateTopicDTO dto, UmsUser user) {
         BmsTopic topic1 = this.baseMapper.selectOne(new LambdaQueryWrapper<BmsTopic>().eq(BmsTopic::getTitle, dto.getTitle()));
-        Assert.isNull(topic1, "话题已存在，请修改");
+//        Assert.isNull(topic1, "话题已存在，请修改");    //此处的话题应该指的是title,可以重复
 
         // 封装
         BmsTopic topic = BmsTopic.builder()

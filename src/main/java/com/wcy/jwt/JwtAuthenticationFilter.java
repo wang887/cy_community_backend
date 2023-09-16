@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -48,23 +49,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         //Security + JWT
         //获取token
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
         if (!StringUtils.hasText(token)) {
             //放行
             filterChain.doFilter(request, response);
             return;
         }
-        //解析token
-        String userId;
+//        解析token
+        String userName;
         try {
-            Claims claims = JwtUtil.paraseToken(token);
-            userId = claims.getSubject();
+            Map<String, Object> map = JwtUtil.paraseToken(token);
+            userName = (String) map.get("userName");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("token非法");
         }
+        request = JwtUtil.validateTokenAndAddUserIdToHeader(request);   //**
         //从redis中获取用户信息
-        String redisKey = "login:"+userId;
+        String redisKey = "login:"+userName;
         LoginUser loginUser = JSON.parseObject((String) redisService.get(redisKey),LoginUser.class);
         if(Objects.isNull(loginUser)) {
             throw new RuntimeException("用户还未登录");

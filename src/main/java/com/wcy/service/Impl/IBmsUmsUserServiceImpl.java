@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wcy.common.api.ApiResult;
 import com.wcy.common.exception.ApiAsserts;
 import com.wcy.jwt.JwtUtil;
 import com.wcy.mapper.BmsFollowMapper;
@@ -16,6 +17,7 @@ import com.wcy.model.dto.RegisterDTO;
 import com.wcy.model.entity.BmsFollow;
 import com.wcy.model.entity.BmsTopic;
 import com.wcy.model.entity.UmsUser;
+import com.wcy.model.vo.LoginUser;
 import com.wcy.model.vo.ProfileVO;
 import com.wcy.service.EmailService;
 import com.wcy.service.IBmsUmsUserService;
@@ -24,11 +26,14 @@ import com.wcy.utils.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import javax.annotation.Resource;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -47,6 +52,10 @@ public class IBmsUmsUserServiceImpl extends ServiceImpl<BmsUmsUserMapper, UmsUse
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+
 
 
     @Override
@@ -58,10 +67,12 @@ public class IBmsUmsUserServiceImpl extends ServiceImpl<BmsUmsUserMapper, UmsUse
         if(!ObjectUtils.isEmpty(umsUser)){
             ApiAsserts.fail("账号或邮箱已存在");
         }
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         UmsUser addUser = UmsUser.builder()     //链式创建对象 @Build注解  set方法一致
                 .username(dto.getName())
                 .alias(dto.getName())
-                .password(MD5Utils.getPwd(dto.getPass()))  //对密码进行MD5加密
+//                .password(MD5Utils.getPwd(dto.getPass()))  //对密码进行MD5加密
+                .password(bCryptPasswordEncoder.encode(dto.getPass()))
                 .email(dto.getEmail())
                 .createTime(new Date())
                 .status(true)
@@ -136,6 +147,26 @@ public class IBmsUmsUserServiceImpl extends ServiceImpl<BmsUmsUserMapper, UmsUse
         }
         return res;
 
+    }
+
+    @Override
+    public ApiResult<Map<String, Object>> login(LoginDTO dto) {
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword());
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        if(Objects.isNull(authentication)){
+            return ApiResult.failed("用户名或者密码错误");
+        }
+        //使用Username生成token
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        String userName = loginUser.getUser().getUsername().toString();
+
+        String jwt = JwtUtil.generateToken(userName);
+        //将authenticate存入redis
+        redisService.set("login:"+userName,JSON.toJSONString(loginUser));
+        //将token相应给前端
+        Map<String,Object> map = new HashMap<>();
+        map.put("token",jwt);
+        return ApiResult.success(map,"登录成功");
     }
 
     @Override

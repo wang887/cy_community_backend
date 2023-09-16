@@ -1,6 +1,7 @@
 package com.wcy.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wcy.common.api.ApiResult;
 import com.wcy.model.dto.LoginDTO;
 import com.wcy.model.dto.RegisterDTO;
 import com.wcy.model.entity.BmsBillboard;
@@ -9,6 +10,7 @@ import com.wcy.model.vo.ProfileVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface IBmsUmsUserService extends IService<UmsUser> {
@@ -48,6 +50,9 @@ public interface IBmsUmsUserService extends IService<UmsUser> {
      * @return 生成的JWT
      */
     String[] execuLogin(LoginDTO dto) throws Exception;
+
+    ApiResult<Map<String,Object>> login(LoginDTO dto);
+
 
     /**
      * 激活用户

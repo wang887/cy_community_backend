@@ -33,8 +33,8 @@ public class JwtUtil {
         return jwt; //jwt前面一般都会加Bearer
     }
 
-    public static Claims paraseToken(String token) {
-        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+    public static Map<String, Object> paraseToken(String token) {
+        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody();
     }
 
 

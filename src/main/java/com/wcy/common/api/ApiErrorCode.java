@@ -14,7 +14,14 @@ public enum ApiErrorCode implements IErrorCode {
     /**
      * 未登录，Token过期
      */
+
     UNAUTHORIZED(401, "暂未登录或token已经过期"),
+
+    /**
+     * 认证失败
+     */
+    FailedAUTHORIZED(401, "认证失败"),
+
     /**
      * 权限不足
      */

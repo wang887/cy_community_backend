@@ -81,19 +81,20 @@ public class BmsUmsUserController extends BaseController {
      * @return
      */
     @PostMapping("/login")
-    public ApiResult<Map<String,String>> login(@RequestBody LoginDTO loginDTO) throws Exception {
-        String[] res = iBmsUmsUserService.execuLogin(loginDTO);
-        String token = res[0];
-        if(ObjectUtils.isEmpty(token)){
-            return ApiResult.failed(res[1]);
-        }
-        Map<String,String> map = new HashMap<>(16);
-        map.put("token",token);
-        return ApiResult.success(map);
+    public ApiResult<Map<String,Object>> login(@RequestBody LoginDTO loginDTO) throws Exception {
+//        String[] res = iBmsUmsUserService.execuLogin(loginDTO);
+//        String token = res[0];
+//        if(ObjectUtils.isEmpty(token)){
+//            return ApiResult.failed(res[1]);
+//        }
+//        Map<String,String> map = new HashMap<>(16);
+//        map.put("token",token);
+//        return ApiResult.success(map);
+        return iBmsUmsUserService.login(loginDTO);
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public ApiResult<UmsUser> getUser(@RequestHeader(value = USER_NAME,required = false) String userName) {
+    public ApiResult<UmsUser> getUser(@RequestHeader(value = USER_NAME) String userName) {
         System.out.println(userName);
         UmsUser user = iBmsUmsUserService.getUserByUsername(userName);
         return ApiResult.success(user);
